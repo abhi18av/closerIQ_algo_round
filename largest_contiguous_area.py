@@ -9,7 +9,7 @@ def getBiggestRegion(grid):
     grid (a 2-d array): This is the main input grid in which we need to compute the maximum region
 
     Returns:
-    int: Returns the value at Nth position in the triple_number series
+    int: Returns the number of all valid contiguous cells in the grid
     """
     maxRegion = 0
     for i in range(len(grid)):
