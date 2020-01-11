@@ -25,7 +25,7 @@ def countCells(grid, r, c):
     Diagonals and any point outside the grid is considered as invalid.
 
     Parameters:
-    grid (a 2-d array): The Nth term of the triple_number series
+    grid (a 2-d array): This is the main input grid in which we need to compute the maximum regions
     r (int): The current row
     c (int): The current column
 
