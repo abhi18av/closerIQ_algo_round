@@ -1,4 +1,4 @@
-def getBiggestRegion(grid):
+def get_biggest_region(grid):
     """
     This function is the main public API to compute the biggest region sum.
 
@@ -11,18 +11,18 @@ def getBiggestRegion(grid):
     Returns:
     int: Returns the number of all valid contiguous cells in the grid
     """
-    maxRegion = 0
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            maxRegion = max(maxRegion, countCells(grid, i, j))
-    return maxRegion
+    max_region = 0
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            max_region = max(max_region, count_cells(grid, r, c))
+    return max_region
 
 
-def countCells(grid, r, c):
+def count_cells(grid, r, c):
     """
     This function analyzes the current value and invokes itself again on the neighbouring valid values.
 
-    Diagonals and any point outside the grid is considered as invalid.
+    Diagonals and any point outside the grid are considered as invalid.
 
     Parameters:
     grid (a 2-d array): This is the main input grid in which we need to compute the maximum regions
@@ -44,10 +44,10 @@ def countCells(grid, r, c):
 
     count = 1
     grid[r][c] = 0
-    count += countCells(grid, r + 1, c)
-    count += countCells(grid, r - 1, c)
-    count += countCells(grid, r, c + 1)
-    count += countCells(grid, r, c - 1)
+    count += count_cells(grid, r + 1, c)
+    count += count_cells(grid, r - 1, c)
+    count += count_cells(grid, r, c + 1)
+    count += count_cells(grid, r, c - 1)
     return count
 
 
@@ -56,27 +56,27 @@ def countCells(grid, r, c):
 def largest_connected_component(nrows, ncols, grid):
     """Find largest connected component of 1s on a grid."""
 
-    def traverse_component(i, j):
+    def traverse_component(r, c):
 
-        """Returns no. of unseen elements connected to (i,j)."""
+        """Returns no. of unseen elements connected to (r,c)."""
 
-        seen[i][j] = True
+        seen[r][c] = True
 
         result = 1
 
         # Check all four neighbours
 
-        if i > 0 and grid[i - 1][j] and not seen[i - 1][j]:
-            result += traverse_component(i - 1, j)
+        if r > 0 and grid[r - 1][c] and not seen[r - 1][c]:
+            result += traverse_component(r - 1, c)
 
-        if j > 0 and grid[i][j - 1] and not seen[i][j - 1]:
-            result += traverse_component(i, j - 1)
+        if c > 0 and grid[r][c - 1] and not seen[r][c - 1]:
+            result += traverse_component(r, c - 1)
 
-        if i < len(grid) - 1 and grid[i + 1][j] and not seen[i + 1][j]:
-            result += traverse_component(i + 1, j)
+        if r < len(grid) - 1 and grid[r + 1][c] and not seen[r + 1][c]:
+            result += traverse_component(r + 1, c)
 
-        if j < len(grid[0]) - 1 and grid[i][j + 1] and not seen[i][j + 1]:
-            result += traverse_component(i, j + 1)
+        if c < len(grid[0]) - 1 and grid[r][c + 1] and not seen[r][c + 1]:
+            result += traverse_component(r, c + 1)
 
         return result
 
@@ -86,44 +86,16 @@ def largest_connected_component(nrows, ncols, grid):
 
     component_size = 0
 
-    for i in range(nrows):
+    for r in range(nrows):
+        for c in range(ncols):
 
-        for j in range(ncols):
-
-            if grid[i][j] and not seen[i][j]:
-
-                temp = traverse_component(i, j)
+            if grid[r][c] and not seen[r][c]:
+                temp = traverse_component(r, c)
 
                 if temp > component_size:
                     component_size = temp
 
     return component_size
-
-
-#########################
-
-def maxAreaOfIsland(grid):
-    seen = set()
-    ans = 0
-    for r0, row in enumerate(grid):
-        for c0, val in enumerate(row):
-            if (val and (r0, c0) not in seen):
-                shape = 0
-                stack = [(r0, c0)]
-                seen.add((r0, c0))
-                while stack:
-                    r, c = stack.pop()
-                    shape += 1
-                    for nr, nc in ((r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1)):
-                        if (0 <= nr < len(grid)
-                                and 0 <= nc < len(grid[0])
-                                and grid[nr][nc]
-                                and (nr, nc)
-                                not in seen):
-                            stack.append((nr, nc))
-                            seen.add((nr, nc))
-                ans = max(ans, shape)
-    return ans
 
 
 # ======================
@@ -138,7 +110,7 @@ grid1 = [
     [1, 1, 0, 0]
 ]
 
-print(getBiggestRegion(grid1))
+print(get_biggest_region(grid1))
 
 grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 0, 0, 0, 0, 1],
@@ -148,7 +120,7 @@ grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 1, 0, 1, 0, 0],
          [1, 1, 1, 1, 0, 1]]
 
-print(getBiggestRegion(grid2))
+print(get_biggest_region(grid2))
 
 grid3 = [
     [0, 1, 1, 1],
@@ -158,4 +130,4 @@ grid3 = [
     [1, 1, 0, 0]
 ]
 
-print(getBiggestRegion(grid3))
+print(get_biggest_region(grid3))
