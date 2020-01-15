@@ -50,7 +50,10 @@ def count_cells(grid, r, c):
     count += count_cells(grid, r, c - 1)
     return count
 
-    #########################
+
+#########################
+# Second Approach
+#########################
 
 
 def traverse_component(grid, r, c, seen):
@@ -141,13 +144,15 @@ grid1 = [
 print(largest_connected_component(grid1))
 print(get_biggest_region(grid1))
 
-grid2 = [[0, 0, 1, 1, 1, 1],
-         [1, 0, 0, 0, 0, 1],
-         [1, 0, 0, 0, 0, 1],
-         [1, 0, 0, 0, 0, 0],
-         [1, 0, 1, 0, 0, 0],
-         [1, 1, 0, 1, 0, 0],
-         [1, 1, 1, 1, 0, 1]]
+grid2 = [
+    [0, 0, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0],
+    [1, 0, 1, 0, 0, 0],
+    [1, 1, 0, 1, 0, 0],
+    [1, 1, 1, 1, 0, 1]
+]
 
 print(largest_connected_component(grid2))
 print(get_biggest_region(grid2))
