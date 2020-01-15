@@ -21,7 +21,7 @@ def get_eligible_candidates(a_lead, config):
     hq = a_lead['HQ']
     eligible_candidates_dict = {}
     for k, v in config.items():
-        if v['company_size']['min'] < size < v['company_size']['max'] and v['HQ_location'] == hq:
+        if v['company_size']['min'] <= size <= v['company_size']['max'] and v['HQ_location'] == hq:
             eligible_candidates_dict[k] = v
     return eligible_candidates_dict
 
@@ -38,15 +38,10 @@ def allocate_a_lead(a_lead, config):
     Returns:
     (dict): Returns the allocated sales_team member for a given lead
 
-
     """
     eligible_candidates = get_eligible_candidates(a_lead, config)
-    # TODO Refactor this
-    sorted_by_leads = list(
-        {k: v for k, v in sorted(eligible_candidates.items(), key=lambda item: item[1]['leads_count'])}.items())
+    sorted_by_leads = sorted(eligible_candidates.items(), key=lambda item: item[1]['leads_count'])
     candidate_name = sorted_by_leads[0][0]
-    # NOTE: This is where we need to update either the DB or the global state for sales_team_config
-    # Could also refactor this towards IO boundaries
     sales_team_config[candidate_name]['leads_count'] += 1
     return {'lead_id': a_lead['lead_id'], 'assigned_to': candidate_name}
 
@@ -95,13 +90,16 @@ sales_team_config = {'A': {'company_size': {'min': 0,
                            'leads_count': 0}
                      }
 
-leads = [{'lead_id': 1, 'size': 600, 'HQ': "US"},
-         {'lead_id': 2, 'size': 1, 'HQ': "Any"},
-         {'lead_id': 3, 'size': 250, 'HQ': "Any"},
-         {'lead_id': 4, 'size': 1000, 'HQ': "US"},
-         {'lead_id': 5, 'size': 9500, 'HQ': "US"},
-         {'lead_id': 6, 'size': 33, 'HQ': "US"},
-         {'lead_id': 7, 'size': 200000, 'HQ': "Any"}]
+leads = [
+    {'lead_id': 1, 'size': 600, 'HQ': "US"},
+    {'lead_id': 2, 'size': 1, 'HQ': "Any"},
+    {'lead_id': 3, 'size': 250, 'HQ': "Any"},
+    {'lead_id': 4, 'size': 1000, 'HQ': "US"},
+    {'lead_id': 5, 'size': 9500, 'HQ': "US"},
+    {'lead_id': 6, 'size': 33, 'HQ': "US"},
+    {'lead_id': 7, 'size': 200000, 'HQ': "Any"},
+    {'lead_id': 8, 'size': 500, 'HQ': "Any"}
+]
 
-print(allocate_leads(leads, sales_team_config))
-print(sales_team_config)
+print("allocate leads: ", allocate_leads(leads, sales_team_config))
+print("sales_team_config: ", sales_team_config)
