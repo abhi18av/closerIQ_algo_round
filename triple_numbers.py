@@ -1,8 +1,13 @@
+def triple_numbers_iterative(n):
+    pass
+
+
 triple_numbers_memo = [2, 2, 3]
 
-def triple_numbers_iterative(n):
+
+def triple_numbers_memoized(n):
     """
-    Computes the triple number series iteratively, using Dynamic programming technique
+    Computes the triple number series using memoization.
 
     This solution, relies on the technique of memoization which caches the results of previous
     computations and calls the function only if it is invoked with a new argument else returns the
@@ -14,14 +19,14 @@ def triple_numbers_iterative(n):
     Returns:
     int: Returns the value at Nth position in the triple_number series
     """
-    if n < 0:
+    if n <= 0:
         print("Invalid input: Please enter a positive integer.")
     elif n <= len(triple_numbers_memo):
         return triple_numbers_memo[n - 1]
     else:
-        temp_fib = triple_numbers_iterative(n - 1) \
-                   + triple_numbers_iterative(n - 2) \
-                   + triple_numbers_iterative(n - 3)
+        temp_fib = triple_numbers_memoized(n - 1) \
+                   + triple_numbers_memoized(n - 2) \
+                   + triple_numbers_memoized(n - 3)
         triple_numbers_memo.append(temp_fib)
         return temp_fib
 
@@ -59,8 +64,10 @@ def triple_numbers_recursive(n):
 # ======================
 
 
-print(triple_numbers_iterative(10))
-print(triple_numbers_iterative(20))
+# print(triple_numbers_memoized(0))
+print(triple_numbers_memoized(10))
+print(triple_numbers_memoized(20))
 
+# print(triple_numbers_recursive(0))
 print(triple_numbers_recursive(10))
 print(triple_numbers_recursive(20))
