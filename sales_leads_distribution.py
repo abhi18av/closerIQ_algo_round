@@ -46,7 +46,7 @@ def allocate_a_lead(a_lead, config):
         {k: v for k, v in sorted(eligible_candidates.items(), key=lambda item: item[1]['leads_count'])}.items())
     candidate_name = sorted_by_leads[0][0]
     # NOTE: This is where we need to update either the DB or the global state for sales_team_config
-    # Could also refactor this for towards IO boundaries
+    # Could also refactor this towards IO boundaries
     sales_team_config[candidate_name]['leads_count'] += 1
     return {'lead_id': a_lead['lead_id'], 'assigned_to': candidate_name}
 
