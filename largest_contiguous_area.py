@@ -50,8 +50,45 @@ def count_cells(grid, r, c):
     count += count_cells(grid, r, c - 1)
     return count
 
+    #########################
 
-#########################
+
+def traverse_component(grid, r, c, seen):
+    """
+    This function analyzes the current cell and invokes itself again on the neighbouring valid cells.
+
+    Diagonals and any point outside the grid are considered as invalid.
+
+    Parameters:
+    r (int): The current row
+    c (int): The current column
+
+    Returns:
+    int: Returns the value count depending upon whether the current cell in the grid is valid or not
+    """
+
+    """Returns no. of unseen elements connected to (r,c)."""
+
+    seen[r][c] = True
+
+    result = 1
+
+    # Check all four neighbours
+
+    if r > 0 and grid[r - 1][c] and not seen[r - 1][c]:
+        result += traverse_component(grid, r - 1, c, seen)
+
+    if c > 0 and grid[r][c - 1] and not seen[r][c - 1]:
+        result += traverse_component(grid, r, c - 1, seen)
+
+    if r < len(grid) - 1 and grid[r + 1][c] and not seen[r + 1][c]:
+        result += traverse_component(grid, r + 1, c, seen)
+
+    if c < len(grid[0]) - 1 and grid[r][c + 1] and not seen[r][c + 1]:
+        result += traverse_component(grid, r, c + 1, seen)
+
+    return result
+
 
 def largest_connected_component(grid):
     """
@@ -71,42 +108,6 @@ def largest_connected_component(grid):
     ncols = len(grid[0])
     """Find largest connected component of 1s on a grid."""
 
-    def traverse_component(r, c):
-        """
-        This function analyzes the current cell and invokes itself again on the neighbouring valid cells.
-
-        Diagonals and any point outside the grid are considered as invalid.
-
-        Parameters:
-        r (int): The current row
-        c (int): The current column
-
-        Returns:
-        int: Returns the value count depending upon whether the current cell in the grid is valid or not
-        """
-
-        """Returns no. of unseen elements connected to (r,c)."""
-
-        seen[r][c] = True
-
-        result = 1
-
-        # Check all four neighbours
-
-        if r > 0 and grid[r - 1][c] and not seen[r - 1][c]:
-            result += traverse_component(r - 1, c)
-
-        if c > 0 and grid[r][c - 1] and not seen[r][c - 1]:
-            result += traverse_component(r, c - 1)
-
-        if r < len(grid) - 1 and grid[r + 1][c] and not seen[r + 1][c]:
-            result += traverse_component(r + 1, c)
-
-        if c < len(grid[0]) - 1 and grid[r][c + 1] and not seen[r][c + 1]:
-            result += traverse_component(r, c + 1)
-
-        return result
-
     seen = [[False] * ncols for _ in range(nrows)]
 
     # Tracks size of largest connected component found
@@ -117,10 +118,10 @@ def largest_connected_component(grid):
         for c in range(ncols):
 
             if grid[r][c] and not seen[r][c]:
-                temp = traverse_component(r, c)
+                current_max_size = traverse_component(grid, r, c, seen)
 
-                if temp > component_size:
-                    component_size = temp
+                if current_max_size > component_size:
+                    component_size = current_max_size
 
     return component_size
 
@@ -137,8 +138,8 @@ grid1 = [
     [1, 1, 0, 0]
 ]
 
-print(get_biggest_region(grid1))
 print(largest_connected_component(grid1))
+print(get_biggest_region(grid1))
 
 grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 0, 0, 0, 0, 1],
@@ -148,8 +149,8 @@ grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 1, 0, 1, 0, 0],
          [1, 1, 1, 1, 0, 1]]
 
-print(get_biggest_region(grid2))
 print(largest_connected_component(grid2))
+print(get_biggest_region(grid2))
 
 grid3 = [
     [0, 1, 1, 1],
@@ -159,5 +160,5 @@ grid3 = [
     [1, 1, 0, 0]
 ]
 
-print(get_biggest_region(grid3))
 print(largest_connected_component(grid3))
+print(get_biggest_region(grid3))
