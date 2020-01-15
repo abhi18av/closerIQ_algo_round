@@ -53,10 +53,37 @@ def count_cells(grid, r, c):
 
 #########################
 
-def largest_connected_component(nrows, ncols, grid):
+def largest_connected_component(grid):
+    """
+   This function is the main public API to compute the biggest region sum.
+
+   This solution, relies on the technique of dynamic programming to reduce the problem into
+   sub-problems and relies on the helper function `countCells` to make the best decision for that sub-problem.
+
+   Parameters:
+   grid (a 2-d array): This is the main input grid in which we need to compute the maximum region
+
+   Returns:
+   int: Returns the number of all valid contiguous cells in the grid
+   """
+
+    nrows = len(grid)
+    ncols = len(grid[0])
     """Find largest connected component of 1s on a grid."""
 
     def traverse_component(r, c):
+        """
+        This function analyzes the current cell and invokes itself again on the neighbouring valid cells.
+
+        Diagonals and any point outside the grid are considered as invalid.
+
+        Parameters:
+        r (int): The current row
+        c (int): The current column
+
+        Returns:
+        int: Returns the value count depending upon whether the current cell in the grid is valid or not
+        """
 
         """Returns no. of unseen elements connected to (r,c)."""
 
@@ -111,6 +138,7 @@ grid1 = [
 ]
 
 print(get_biggest_region(grid1))
+print(largest_connected_component(grid1))
 
 grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 0, 0, 0, 0, 1],
@@ -121,6 +149,7 @@ grid2 = [[0, 0, 1, 1, 1, 1],
          [1, 1, 1, 1, 0, 1]]
 
 print(get_biggest_region(grid2))
+print(largest_connected_component(grid2))
 
 grid3 = [
     [0, 1, 1, 1],
@@ -131,3 +160,4 @@ grid3 = [
 ]
 
 print(get_biggest_region(grid3))
+print(largest_connected_component(grid3))
